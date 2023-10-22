@@ -21,8 +21,6 @@ The APIs we use in this project are
 - Maps JavaScript API
 - Places API
 
-4. Create an `.env` file in the root directory.
-
 5. Replace `<YOUR GOOGLE MAP API KEY>` with your Google Map API key.
 
 ** It requires credit card to create an API key, but Google offers some credit limit which 
@@ -34,4 +32,10 @@ Start the application locally.
 
 2. run `npm install` to install the packages.
 
-3. run `npm start` to boot up the development mode.
+3. run `npm run start` to boot up the development mode.
+
+Create production build
+
+1. Create your production google map API with correct restriction with the instruction above and update corresponding values in your `.env` file
+
+2. run `npm run build`. The production build is in the `./build` folder
