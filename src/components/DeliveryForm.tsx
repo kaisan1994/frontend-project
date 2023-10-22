@@ -54,6 +54,7 @@ const DeliveryForm = (props: DeliveryFormProps) => {
         message: errorMessage,
         severity: 'error',
       });
+      setRoutesInfo(null);
     }
     setLoading(false);
   };

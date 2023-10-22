@@ -29,17 +29,10 @@ const Input = (props: InputProps) => {
       onClose={() => clearSuggestions()}
       onInputChange={(e, newInputValue) => setValue(newInputValue)}
       onChange={(e, value) => {
-        console.log('value', value);
         onChange(value);
       }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label={label}
-          value={value}
-          error={!!error?.message}
-          helperText={error?.message}
-        />
+        <TextField {...params} label={label} value={value} error={!!error?.message} helperText={error?.message} />
       )}
     />
   );

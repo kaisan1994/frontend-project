@@ -16,7 +16,6 @@ const Map = (props: BoxProps) => {
   const { routesInfo } = useContext(DeliveryContext);
   const { routes } = routesInfo || {};
   const positions = useMemo(() => routes?.map((route) => convertRouteToGoogleLatLng(route)), [routes]);
-  const center = useMemo(() => positions?.[0] || initialCenter, [positions]);
 
   const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
 
@@ -45,8 +44,6 @@ const Map = (props: BoxProps) => {
     }
   }, [positions]);
 
-  console.log('rerender');
-
   return (
     <Box {...props}>
       <GoogleMap
@@ -56,7 +53,7 @@ const Map = (props: BoxProps) => {
         }}
         zoom={14}
         onLoad={onMapLoad}
-        center={center}
+        center={initialCenter}
       >
         {directions && <DirectionsRenderer directions={directions}></DirectionsRenderer>}
 
