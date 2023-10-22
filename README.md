@@ -7,7 +7,7 @@ Create the Google Map API through https://console.cloud.google.com/
 1. Follow the instructions and you will get API key for Google Map APIs.
 Skip the API restriction setting for now.
 
-2. After getting the API key, navigate to "Billing" using the hamburger menu on the to left corner.
+2. After getting the API key, navigate to "Billing" using the hamburger menu on the top left corner.
 
 3. On the bottom right corner of the page main content. Activate the free trail in the "Credits" section.
 
@@ -21,7 +21,7 @@ The APIs we use in this project are
 - Maps JavaScript API
 - Places API
 
-5. Replace `<YOUR GOOGLE MAP API KEY>` with your Google Map API key.
+5. Replace `<YOUR GOOGLE MAP API KEY>` with your Google Map API key in the `.env` file.
 
 ** It requires credit card to create an API key, but Google offers some credit limit which 
 way more than enough for testing and development within trail period
