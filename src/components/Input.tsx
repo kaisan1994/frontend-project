@@ -4,7 +4,7 @@ import usePlacesAutocomplete from 'use-places-autocomplete';
 
 type InputProps = {
   onChange: (value: string | null) => void;
-  error: FieldError | undefined;
+  error?: FieldError | undefined;
   label: string;
 };
 
