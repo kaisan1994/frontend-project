@@ -3,4 +3,10 @@ type DeliveryRequest = {
   dropOffPoint: string;
 };
 
-export type { DeliveryRequest };
+type RoutesInfo = {
+  routes: string[][]
+  totalDistance: number;
+  totalTime: number;
+}
+
+export type { DeliveryRequest, RoutesInfo };

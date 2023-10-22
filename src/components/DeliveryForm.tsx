@@ -1,10 +1,11 @@
-import { TextField, Stack, Button, styled, SxProps } from '@mui/material';
+import { TextField, Stack, Button, styled, SxProps, Autocomplete, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { DeliveryRequest } from '../interfaces/Delivery';
-import { API, responseStatus } from '../constants/api';
-import { httpRequest } from '../apiServices';
+import { getRouteToken, getRoutesInfo } from '../services/apiServices';
 import { useContext } from 'react';
-import { AlertContext } from './AlertWrapper';
+import { AlertContext } from '../contexts/AlertContext';
+import { DeliveryContext } from '../contexts/DeliveryContext';
+import Input from './Input';
 
 type DeliveryFormProps = {
   sx?: SxProps;
@@ -19,33 +20,22 @@ const MuiForm = styled('form')({});
 
 const DeliveryForm = (props: DeliveryFormProps) => {
   const { showAlert } = useContext(AlertContext);
+  const { setRoutesInfo, routesInfo, loading, setLoading } = useContext(DeliveryContext);
   const { handleSubmit, reset, control } = useForm<DeliveryRequest>({
     defaultValues: initialFormValues,
   });
 
   const onFormSubmit = async (data: DeliveryRequest) => {
+    setLoading(true);
     try {
-      const res = await httpRequest({
-        api: API.route,
-        method: 'POST',
-        data: {
-          origin: data.startingPoint,
-          destination: data.dropOffPoint,
-        },
+      const { token } = await getRouteToken(data);
+      const routesInfo = await getRoutesInfo(token);
+      const { path, total_distance, total_time } = routesInfo || {};
+      setRoutesInfo({
+        routes: path,
+        totalDistance: total_distance,
+        totalTime: total_time,
       });
-
-      const resObject = await res.json();
-      const { status } = resObject;
-
-      if (status === responseStatus.inProgress) {
-        setTimeout(() => {
-          onFormSubmit(data);
-        }, 1000);
-      } else if (status === responseStatus.failure) {
-        throw new Error(resObject.error);
-      } else if (status === responseStatus.success) {
-        
-      }
     } catch (error) {
       let errorMessage: string = 'Something went wrong.';
 
@@ -60,6 +50,7 @@ const DeliveryForm = (props: DeliveryFormProps) => {
         severity: 'error',
       });
     }
+    setLoading(false);
   };
 
   return (
@@ -70,43 +61,39 @@ const DeliveryForm = (props: DeliveryFormProps) => {
           rowGap: 3,
         }}
       >
-        <Controller
-          control={control}
-          name='startingPoint'
-          rules={{
-            required: '* Starting point is required',
-          }}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <TextField
-              label='Starting Point'
-              value={value}
-              error={!!error?.message}
-              helperText={error?.message}
-              onChange={onChange}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          name='dropOffPoint'
-          rules={{
-            required: '* Drop-off point is required',
-          }}
-          render={({ field: { onChange, value }, fieldState: { error } }) => (
-            <TextField
-              label='Drop-off Point'
-              value={value}
-              error={!!error?.message}
-              helperText={error?.message}
-              onChange={onChange}
-            />
-          )}
-        />
+        <Stack rowGap={3}>
+          <Controller
+            control={control}
+            name='startingPoint'
+            rules={{
+              required: '* Starting point is required',
+            }}
+            render={({ field: { onChange }, fieldState: { error } }) => (
+              <Input onChange={onChange} label='Starting Point' error={error} />
+            )}
+          />
+          <Controller
+            control={control}
+            name='dropOffPoint'
+            rules={{
+              required: '* Drop-off point is required',
+            }}
+            render={({ field: { onChange }, fieldState: { error } }) => (
+              <Input onChange={onChange} label='Drop-off Point' error={error} />
+            )}
+          />
+        </Stack>
+
+        <Stack>
+          <Typography component='p'>Total Distance: {routesInfo?.totalDistance || 'N/A'}</Typography>
+          <Typography component='p'>Total Time: {routesInfo?.totalTime || 'N/A'}</Typography>
+        </Stack>
+
         <Stack justifyContent='space-between' flexDirection='row'>
           <Button variant='outlined' type='button' onClick={() => reset()}>
             Reset
           </Button>
-          <Button variant='contained' type='submit'>
+          <Button disabled={loading} variant='contained' type='submit'>
             Submit
           </Button>
         </Stack>

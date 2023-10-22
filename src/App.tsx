@@ -2,15 +2,15 @@ import { ThemeProvider, CssBaseline } from '@mui/material';
 import Content from './components/Content';
 import './index.css';
 import { theme } from './styles/theme';
-import AlertWrapper from './components/AlertWrapper';
+import AlertContextProvider from './contexts/AlertContext';
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AlertWrapper>
+      <AlertContextProvider>
         <Content />
-      </AlertWrapper>
+      </AlertContextProvider>
     </ThemeProvider>
   );
 };

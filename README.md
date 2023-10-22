@@ -12,7 +12,8 @@ Skip the API restriction setting for now.
 3. On the bottom right corner of the page main content. Activate the free trail in the "Credits" section.
 
 4. You can navigate to "APIs & Services" > "Credentials" to retrieve your `Maps API Key`.
-Edit your API key. Limit your API key access to allow only required google map APIs. 
+Edit your API key. Limit your API key access to allow only required google map APIs. Or you can just leave it without restriction for testing purpose.
+
 The APIs we use in this project are 
 - Directions API
 - Distance Matrix API
@@ -22,28 +23,15 @@ The APIs we use in this project are
 
 4. Create an `.env` file in the root directory.
 
-5. Add line `REACT_APP_GOOGLE_MAP_API_KEY=<YOUR GOOGLE MAP API KEY>` and replace `<YOUR GOOGLE MAP API KEY>` with your Google Map API key.
-
+5. Replace `<YOUR GOOGLE MAP API KEY>` with your Google Map API key.
 
 ** It requires credit card to create an API key, but Google offers some credit limit which 
 way more than enough for testing and development within trail period
 
-### `npm start`
+Start the application locally.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. boot up the backend mock api locally. Or just use the server link by replacing your the env variable `REACT_APP_BASE_API_URL` by the target server domain.
 
-### `npm test`
+2. run `npm install` to install the packages.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. run `npm start` to boot up the development mode.

@@ -11,7 +11,7 @@ const AlertContext = createContext<AlertContextProps>({
   showAlert: () => {},
 });
 
-const AlertWrapper = (props: PropsWithChildren) => {
+const AlertContextProvider = (props: PropsWithChildren) => {
   const { children } = props;
   const [open, setOpen] = useState(false);
   const [alertInfo, setAlertInfo] = useState<AlertParams | null>(null);
@@ -27,7 +27,10 @@ const AlertWrapper = (props: PropsWithChildren) => {
     }
 
     setOpen(false);
-    setTimeout(() => setAlertInfo(null), 1000);
+  };
+
+  const onAnimationEnd = () => {
+    setAlertInfo(null);
   };
 
   return (
@@ -41,6 +44,9 @@ const AlertWrapper = (props: PropsWithChildren) => {
         open={open}
         autoHideDuration={3000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        TransitionProps={{
+          onExited: onAnimationEnd,
+        }}
         onClose={onBarClose}
       >
         <Alert severity={alertInfo?.severity} onClose={onBarClose}>
@@ -51,4 +57,4 @@ const AlertWrapper = (props: PropsWithChildren) => {
   );
 };
 
-export { AlertWrapper as default, AlertContext };
+export { AlertContextProvider as default, AlertContext };
