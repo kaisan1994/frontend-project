@@ -1,5 +1,6 @@
 import { API, responseStatus, statusCode } from '../constants/api';
-import { DeliveryRequest } from '../interfaces/Delivery';
+import { delay } from '../helper/utils';
+import { DeliveryRequest, DeliveryResponse } from '../interfaces/Delivery';
 
 type RequestParams = {
   baseUrl?: string;
@@ -30,8 +31,9 @@ const httpRequest = async (params: RequestParams) => {
   return await fetch(requestUrl, options);
 };
 
-const getRoutesInfo = async (token: string) => {
+const getRoutesInfo = async (token: string): Promise<DeliveryResponse | null> => {
   const res = await httpRequest({
+    // api: '/mock/route/inprogress',
     api: `${API.route}/${token}`,
     method: 'GET',
   });
@@ -44,14 +46,15 @@ const getRoutesInfo = async (token: string) => {
   const { status } = resObject;
 
   if (status === responseStatus.inProgress) {
-    setTimeout(() => {
-      getRoutesInfo(token);
-    }, 1000);
+    await delay(1000);
+    return await getRoutesInfo(token);
   } else if (status === responseStatus.failure) {
     throw new Error(resObject.error);
   } else if (status === responseStatus.success) {
     return resObject;
   }
+
+  return null;
 };
 
 const getRouteToken = async (data: DeliveryRequest) => {

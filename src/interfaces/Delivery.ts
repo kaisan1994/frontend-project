@@ -3,10 +3,18 @@ type DeliveryRequest = {
   dropOffPoint: string;
 };
 
-type RoutesInfo = {
-  routes: string[][]
-  totalDistance: number;
-  totalTime: number;
-}
+type DeliveryResponse = {
+  status: string;
+  path?: string[][];
+  error?: string;
+  total_distance?: number;
+  total_time?: number;
+};
 
-export type { DeliveryRequest, RoutesInfo };
+type RoutesInfo = {
+  routes: string[][];
+  totalDistance?: number;
+  totalTime?: number;
+};
+
+export type { DeliveryRequest, RoutesInfo, DeliveryResponse };

@@ -1,4 +1,4 @@
-import { TextField, Stack, Button, styled, SxProps, Autocomplete, Typography } from '@mui/material';
+import { Stack, Button, styled, SxProps, Typography } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { DeliveryRequest } from '../interfaces/Delivery';
 import { getRouteToken, getRoutesInfo } from '../services/apiServices';
@@ -31,11 +31,16 @@ const DeliveryForm = (props: DeliveryFormProps) => {
       const { token } = await getRouteToken(data);
       const routesInfo = await getRoutesInfo(token);
       const { path, total_distance, total_time } = routesInfo || {};
-      setRoutesInfo({
-        routes: path,
-        totalDistance: total_distance,
-        totalTime: total_time,
-      });
+
+      if (routesInfo && path && path.length > 0) {
+        setRoutesInfo({
+          routes: path,
+          totalDistance: total_distance,
+          totalTime: total_time,
+        });
+      } else {
+        setRoutesInfo(null);
+      }
     } catch (error) {
       let errorMessage: string = 'Something went wrong.';
 
